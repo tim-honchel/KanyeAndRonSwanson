@@ -16,13 +16,11 @@ namespace KanyeAndRonSwanson
             Console.WriteLine("Choose the first person by pressing the number next to their name:");
             Console.WriteLine("1 Kanye West");
             Console.WriteLine("2 Ron Swanson");
-            Console.WriteLine("3 Jerry Seinfeld");
-            Console.WriteLine("4 Han Solo");
-            Console.WriteLine("5 Iron Man");
-            Console.WriteLine("6 Donald Trump");
+            Console.WriteLine("3 Jerry Seinfeld");;
+            Console.WriteLine("4 Iron Man");
             Console.WriteLine("");
             var option1 = '0';
-            while (option1 != '1' && option1 != '2' && option1 != '3' && option1 != '4' && option1 != '5' && option1 != '6')
+            while (option1 != '1' && option1 != '2' && option1 != '3' && option1 != '4')
             {
                 Console.CursorLeft = 0;
                 option1 = Console.ReadKey().KeyChar;
@@ -40,13 +38,7 @@ namespace KanyeAndRonSwanson
                     person1 = "Jerry Seinfeld";
                     break;
                 case '4':
-                    person1 = "Han Solo";
-                    break;
-                case '5':
                     person1 = "Iron Man";
-                    break;
-                case '6':
-                    person1 = "Donald Trump";
                     break;
             }
             Console.WriteLine("");
@@ -56,12 +48,10 @@ namespace KanyeAndRonSwanson
             Console.WriteLine("1 Kanye West");
             Console.WriteLine("2 Ron Swanson");
             Console.WriteLine("3 Jerry Seinfeld");
-            Console.WriteLine("4 Han Solo");
-            Console.WriteLine("5 Iron Man");
-            Console.WriteLine("6 Donald Trump");
+            Console.WriteLine("4 Iron Man");
             Console.WriteLine("");
             var option2 = '0';
-            while (option2 != '1' && option2 != '2' && option2 != '3' && option2 != '4' && option2 != '5' && option2 != '6')
+            while (option2 != '1' && option2 != '2' && option2 != '3' && option2 != '4')
             {
                 Console.CursorLeft = 0;
                 option2 = Console.ReadKey().KeyChar;
@@ -79,13 +69,7 @@ namespace KanyeAndRonSwanson
                     person2 = "Jerry Seinfeld";
                     break;
                 case '4':
-                    person2 = "Han Solo";
-                    break;
-                case '5':
                     person2 = "Iron Man";
-                    break;
-                case '6':
-                    person2 = "Donald Trump";
                     break;
             }
 
@@ -114,13 +98,7 @@ namespace KanyeAndRonSwanson
                         Seinfeld(client);
                         break;
                     case '4':
-                        Solo(client);
-                        break;
-                    case '5':
                         IronMan(client);
-                        break;
-                    case '6':
-                        Trump(client);
                         break;
                 }
                 switch (option2)
@@ -135,13 +113,7 @@ namespace KanyeAndRonSwanson
                         Seinfeld(client);
                         break;
                     case '4':
-                        Solo(client);
-                        break;
-                    case '5':
                         IronMan(client);
-                        break;
-                    case '6':
-                        Trump(client);
                         break;
                 }
 
@@ -178,53 +150,12 @@ namespace KanyeAndRonSwanson
             Console.WriteLine($"Seinfeld: '{seinfeldQuote}'");
             Console.WriteLine();
         }
-        static void Solo(HttpClient client)
-        {
-            var soloQuote = "";
-            try
-            {
-                var soloResponse = client.GetStringAsync("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote").Result; // maybe needs header: https://wolfgang-ziegler.com/blog/starwars-quotes-web-api
-                soloQuote = "";
-                var hyphenPosition = 0;
-                var soloCharacter = "";
-
-                while (soloCharacter != "Han Solo")
-                //for (int i=0; i < 10; i++)
-                {
-                    soloResponse = client.GetStringAsync("http://swquotesapi.digitaljedi.dk/api/SWQuote/RandomStarWarsQuote").Result;
-                    soloQuote = JObject.Parse(soloResponse).GetValue("starWarsQuote").ToString();
-                    hyphenPosition = soloQuote.LastIndexOf('—');
-                    soloCharacter = soloQuote.Substring(hyphenPosition + 2);
-                    //Console.WriteLine(soloCharacter + ": " + soloQuote);
-                }
-            }
-            catch (Exception ex)
-            {
-                soloQuote = "Not ready yet.";
-            }
-            Console.WriteLine($"Solo: '{soloQuote}'");
-            Console.WriteLine();
-        }
+ 
         static void Swanson(HttpClient client)
         {
             var ronResponse = client.GetStringAsync("https://ron-swanson-quotes.herokuapp.com/v2/quotes").Result;
             var ronQuote = JArray.Parse(ronResponse).ToString().Replace('[', ' ').Replace(']', ' ').Trim();
             Console.WriteLine($"Ron: {ronQuote}");
-            Console.WriteLine();
-        }
-        static void Trump(HttpClient client)
-        {
-            var trumpQuote = "";
-            try
-            {
-                var trumpResponse = client.GetStringAsync("https://api.tronalddump.io/random/quote").Result; // need to figure out headers to avoid bad request https://github.com/tronalddump-io/tronald-app#readme
-                trumpQuote = JObject.Parse(trumpResponse).GetValue("value").ToString();
-            }
-            catch (Exception)
-            {
-                trumpQuote = "Not ready yet";
-            }
-            Console.WriteLine($"Trump: '{trumpQuote}'");
             Console.WriteLine();
         }
     }
